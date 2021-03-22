@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.ArrayList;
+
 
 public class InVoiceGeneratorTest {
     InVoiceGenerator InVoiceGenerator;
@@ -33,14 +35,6 @@ public class InVoiceGeneratorTest {
         Assert.assertEquals(5,fare, diff);
     }
     @Test
-    public void givenMultipleRides_ShouldReturnTotalFare() {
-        Ride[] rides = {new Ride(2.0, 5),
-                new Ride(0.1, 1)};
-        InVoiceGenerator inVoiceGenerator = new InVoiceGenerator();
-        InvoiceSummary Fare = inVoiceGenerator.calculateFare(rides);
-        Assert.assertEquals(30.0, Fare);
-    }
-    @Test
     public void givenMultipleRides_ShouldReturnInvoiceSummary() {
         Ride[] rides = {
                 new Ride(2.0, 5),
@@ -49,6 +43,21 @@ public class InVoiceGeneratorTest {
         InvoiceSummary actualInvoiceSummary = InVoiceGenerator.calculateFare(rides);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
         Assert.assertEquals(expectedInvoiceSummary, actualInvoiceSummary);
+    }
+    @Test
+    public void getUserRideSummaryTest() {
+        ArrayList<InvoiceSummary> expectedSummery = new ArrayList<>();
+        Ride[] rides1 = new Ride[]{new Ride(2.0, 5),
+                new Ride(0.1, 1)
+        };
+        InvoiceSummary summary = InVoiceGenerator.calculateFare(rides1);
+        expectedSummery.add(summary);
+        Ride[] rides2 = {new Ride(2.0, 5),
+                new Ride(0.3, 1)
+        };
+        summary = InVoiceGenerator.calculateFare(rides2);
+        expectedSummery.add(summary);
+        Assert.assertEquals(expectedSummery, RideRepository.getUserRideList(5));
     }
 
 }
