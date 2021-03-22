@@ -20,7 +20,7 @@ public class InVoiceGeneratorTest {
         double distance = 2.0;
         int time = 5;
         InVoiceGenerator inVoiceGenerator = new InVoiceGenerator();
-        double fare = inVoiceGenerator.calculateFare(distance, time);
+        double fare = inVoiceGenerator.calculateFare(distance, time, "normal");
         double diff = Math.abs(25 - fare);
         Assert.assertEquals(25.0, fare, diff);
     }
@@ -30,7 +30,7 @@ public class InVoiceGeneratorTest {
         double distance = 0.1;
         int time = 1;
         InVoiceGenerator invoiceGenerator = new InVoiceGenerator();
-        double fare = invoiceGenerator.calculateFare(distance, time);
+        double fare = invoiceGenerator.calculateFare(distance, time, "normal");
         double diff = Math.abs(5 - fare);
         Assert.assertEquals(5,fare, diff);
     }
@@ -40,22 +40,22 @@ public class InVoiceGeneratorTest {
                 new Ride(2.0, 5),
                 new Ride(0.1, 1)
         };
-        InvoiceSummary actualInvoiceSummary = InVoiceGenerator.calculateFare(rides);
+        InvoiceSummary actualInvoiceSummary = InVoiceGenerator.calculateFare(rides, 5 , "normal");
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 30.0);
         Assert.assertEquals(expectedInvoiceSummary, actualInvoiceSummary);
     }
     @Test
     public void getUserRideSummaryTest() {
         ArrayList<InvoiceSummary> expectedSummery = new ArrayList<>();
-        Ride[] rides1 = new Ride[]{new Ride(2.0, 5),
+        Ride[] rides1 = {new Ride(2.0, 5),
                 new Ride(0.1, 1)
         };
-        InvoiceSummary summary = InVoiceGenerator.calculateFare(rides1);
+        InvoiceSummary summary = InVoiceGenerator.calculateFare(rides1, 5, "normal");
         expectedSummery.add(summary);
         Ride[] rides2 = {new Ride(2.0, 5),
                 new Ride(0.3, 1)
         };
-        summary = InVoiceGenerator.calculateFare(rides2);
+        summary = InVoiceGenerator.calculateFare(rides2, 5, "premium");
         expectedSummery.add(summary);
         Assert.assertEquals(expectedSummery, RideRepository.getUserRideList(5));
     }
